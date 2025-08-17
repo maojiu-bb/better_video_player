@@ -21,6 +21,10 @@ class _BetterVideoPlayerState extends State<BetterVideoPlayer> {
 
   Future<void> _initVideoPlayer() async {
     await widget.controller.init();
+
+    if (widget.controller.isAutoPlay) {
+      widget.controller.play();
+    }
   }
 
   void _navigateToFullscreen() {
@@ -41,7 +45,7 @@ class _BetterVideoPlayerState extends State<BetterVideoPlayer> {
         color: Colors.black,
         width: double.infinity,
         child: AspectRatio(
-          aspectRatio: 16 / 9,
+          aspectRatio: widget.controller.aspectRatio,
           child: VideoPlayerContent(
             controller: widget.controller,
             onFullscreen: _navigateToFullscreen,

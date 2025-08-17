@@ -54,6 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
     controller = BetterVideoPlayerController.network(
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      showToolbar: true,
+      autoPlay: true,
+      loop: true,
+      speeds: [0.5, 1, 1.5, 2, 2.5, 3],
+      initialSpeed: 1.0,
+      initialVolume: 1.0,
+      initialPosition: 10,
+      aspectRation: 16 / 9,
     );
   }
 

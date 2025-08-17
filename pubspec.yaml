@@ -1,7 +1,10 @@
 name: better_video_player
-description: 'A new Flutter package project.'
+description: 'A better video player for Flutter.'
 version: 0.0.1
-homepage:
+homepage: https://github.com/maojiu-bb/better_video_player
+repository: https://github.com/maojiu-bb/better_video_player
+issue_tracker: https://github.com/maojiu-bb/better_video_player/issues
+documentation: https://github.com/maojiu-bb/better_video_player/blob/main/README.md
 
 environment:
   sdk: ^3.7.2

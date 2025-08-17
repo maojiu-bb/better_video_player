@@ -39,7 +39,11 @@ class VideoPlayerContent extends StatelessWidget {
           return Stack(
             alignment: Alignment.center,
             children: [
-              VideoPlayer(controller.videoPlayerController!),
+              AspectRatio(
+                aspectRatio:
+                    controller.videoPlayerController!.value.aspectRatio,
+                child: VideoPlayer(controller.videoPlayerController!),
+              ),
 
               _buildCenterPlayButton(),
 
@@ -49,7 +53,29 @@ class VideoPlayerContent extends StatelessWidget {
             ],
           );
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation(Colors.white),
+                    backgroundColor: Colors.white.withOpacity(0.2),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Loading...',
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
         }
       },
     );
@@ -98,58 +124,65 @@ class VideoPlayerContent extends StatelessWidget {
       left: controller.isFullscreen ? 40 : 20,
       right: controller.isFullscreen ? 40 : 20,
       bottom: 10,
-      child: AnimatedOpacity(
-        opacity: controller.isShowToolbar ? 1 : 0,
-        duration: const Duration(milliseconds: 300),
-        child:
-            controller.isFullscreen
-                ? FullBottomToolbar(
-                  totalDuration: controller.duration.inSeconds.toDouble(),
-                  currentDuration: controller.position.inSeconds.toDouble(),
-                  onExitFullscreen: () {
-                    if (controller.isShowToolbar) {
-                      onFullscreen();
-                    }
-                  },
-                  playbackSpeed: controller.speed,
-                  onPlaybackSpeed: () {
-                    if (controller.isShowToolbar) {
-                      _showPlaybackSpeedSheet(context);
-                    }
-                  },
-                  onVolume: () {
-                    if (controller.isShowToolbar) {
-                      _showVolumeSheet(context);
-                    }
-                  },
-                  onSeek: (double newDuration) {
-                    if (controller.isShowToolbar) {
-                      controller.seekTo(Duration(seconds: newDuration.toInt()));
-                    }
-                  },
-                )
-                : StandardBottomToolbar(
-                  totalDuration: controller.duration.inSeconds.toDouble(),
-                  currentDuration: controller.position.inSeconds.toDouble(),
-                  onFullscreen: () {
-                    if (controller.isShowToolbar) {
-                      onFullscreen();
-                    }
-                  },
-                  onSeek: (newDuration) {
-                    if (controller.isShowToolbar) {
-                      controller.seekTo(Duration(seconds: newDuration.toInt()));
-                    }
-                  },
-                ),
+      child: SafeArea(
+        bottom: false,
+        child: AnimatedOpacity(
+          opacity: controller.isShowToolbar ? 1 : 0,
+          duration: const Duration(milliseconds: 300),
+          child:
+              controller.isFullscreen
+                  ? FullBottomToolbar(
+                    totalDuration: controller.duration.inSeconds.toDouble(),
+                    currentDuration: controller.position.inSeconds.toDouble(),
+                    onExitFullscreen: () {
+                      if (controller.isShowToolbar) {
+                        onFullscreen();
+                      }
+                    },
+                    playbackSpeed: controller.speed,
+                    onPlaybackSpeed: () {
+                      if (controller.isShowToolbar) {
+                        _showPlaybackSpeedSheet(context);
+                      }
+                    },
+                    onVolume: () {
+                      if (controller.isShowToolbar) {
+                        _showVolumeSheet(context);
+                      }
+                    },
+                    onSeek: (double newDuration) {
+                      if (controller.isShowToolbar) {
+                        controller.seekTo(
+                          Duration(seconds: newDuration.toInt()),
+                        );
+                      }
+                    },
+                  )
+                  : StandardBottomToolbar(
+                    totalDuration: controller.duration.inSeconds.toDouble(),
+                    currentDuration: controller.position.inSeconds.toDouble(),
+                    onFullscreen: () {
+                      if (controller.isShowToolbar) {
+                        onFullscreen();
+                      }
+                    },
+                    onSeek: (newDuration) {
+                      if (controller.isShowToolbar) {
+                        controller.seekTo(
+                          Duration(seconds: newDuration.toInt()),
+                        );
+                      }
+                    },
+                  ),
+        ),
       ),
     );
   }
 
   void _showVolumeSheet(BuildContext context) {
     if (controller.isShowToolbar && !VolumeSheet.isShow) {
-      final right = 80.0;
-      final bottom = 55.0;
+      final right = 140.0;
+      final bottom = 60.0;
       VolumeSheet.show(context, controller, bottom, right);
     }
   }
@@ -159,6 +192,7 @@ class VideoPlayerContent extends StatelessWidget {
       context: context,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (BuildContext context) {
         return SpeedSheet(controller: controller);
       },
@@ -170,20 +204,22 @@ class VideoPlayerContent extends StatelessWidget {
       top: 20,
       left: 40,
       right: 40,
-      child: AnimatedOpacity(
-        opacity: controller.isShowToolbar ? 1 : 0,
-        duration: const Duration(milliseconds: 300),
-        child: TopToolbar(
-          onClose: () {
-            if (controller.isShowToolbar) {
-              onClose?.call();
-            }
-          },
-          onPictureInPicture: () {
-            if (controller.isShowToolbar) {
-              onPictureInPicture?.call();
-            }
-          },
+      child: SafeArea(
+        child: AnimatedOpacity(
+          opacity: controller.isShowToolbar ? 1 : 0,
+          duration: const Duration(milliseconds: 300),
+          child: TopToolbar(
+            onClose: () {
+              if (controller.isShowToolbar) {
+                onClose?.call();
+              }
+            },
+            onPictureInPicture: () {
+              if (controller.isShowToolbar) {
+                onPictureInPicture?.call();
+              }
+            },
+          ),
         ),
       ),
     );

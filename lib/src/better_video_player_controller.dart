@@ -8,6 +8,14 @@ import 'package:video_player/video_player.dart';
 class BetterVideoPlayerController extends ChangeNotifier {
   final String url;
   final BetterVideoType type;
+  final bool? showToolbar;
+  final bool? loop;
+  final List<double>? speeds;
+  final bool? autoPlay;
+  final double? initialSpeed;
+  final double? initialVolume;
+  final double? initialPosition;
+  final double? aspectRation;
 
   VideoPlayerController? _videoPlayerController;
 
@@ -23,26 +31,102 @@ class BetterVideoPlayerController extends ChangeNotifier {
 
   List<double> _playbackSpeeds = [0.5, 1, 1.5, 2, 2.5, 3];
 
-  BetterVideoPlayerController({required this.url, required this.type});
+  BetterVideoPlayerController({
+    required this.url,
+    required this.type,
+    this.showToolbar,
+    this.loop,
+    this.speeds,
+    this.autoPlay,
+    this.initialSpeed,
+    this.initialVolume,
+    this.initialPosition,
+    this.aspectRation,
+  });
 
   /// [network] create a network video player controller
-  factory BetterVideoPlayerController.network(String url) {
-    return BetterVideoPlayerController(url: url, type: BetterVideoType.network);
+  factory BetterVideoPlayerController.network(
+    String url, {
+    bool? showToolbar,
+    bool? loop,
+    List<double>? speeds,
+    bool? autoPlay,
+    double? initialSpeed,
+    double? initialVolume,
+    double? initialPosition,
+    double? aspectRation,
+  }) {
+    return BetterVideoPlayerController(
+      url: url,
+      type: BetterVideoType.network,
+      showToolbar: showToolbar,
+      loop: loop,
+      speeds: speeds,
+      autoPlay: autoPlay,
+      initialSpeed: initialSpeed,
+      initialVolume: initialVolume,
+      initialPosition: initialPosition,
+      aspectRation: aspectRation,
+    );
   }
 
   /// [asset] create an asset video player controller
-  factory BetterVideoPlayerController.asset(String asset) {
-    return BetterVideoPlayerController(url: asset, type: BetterVideoType.asset);
+  factory BetterVideoPlayerController.asset(
+    String asset, {
+    bool? showToolbar,
+    bool? loop,
+    List<double>? speeds,
+    bool? autoPlay,
+    double? initialSpeed,
+    double? initialVolume,
+    double? initialPosition,
+    double? aspectRation,
+  }) {
+    return BetterVideoPlayerController(
+      url: asset,
+      type: BetterVideoType.asset,
+      showToolbar: showToolbar,
+      loop: loop,
+      initialSpeed: initialSpeed,
+      initialVolume: initialVolume,
+      initialPosition: initialPosition,
+      aspectRation: aspectRation,
+      speeds: speeds,
+      autoPlay: autoPlay,
+    );
   }
 
   /// [file] create a file video player controller
-  factory BetterVideoPlayerController.file(String path) {
-    return BetterVideoPlayerController(url: path, type: BetterVideoType.file);
+  factory BetterVideoPlayerController.file(
+    String path, {
+    bool? showToolbar,
+    bool? loop,
+    List<double>? speeds,
+    bool? autoPlay,
+    double? initialSpeed,
+    double? initialVolume,
+    double? initialPosition,
+    double? aspectRation,
+  }) {
+    return BetterVideoPlayerController(
+      url: path,
+      type: BetterVideoType.file,
+      showToolbar: showToolbar,
+      loop: loop,
+      speeds: speeds,
+      autoPlay: autoPlay,
+      initialSpeed: initialSpeed,
+      initialVolume: initialVolume,
+      initialPosition: initialPosition,
+      aspectRation: aspectRation,
+    );
   }
 
   VideoPlayerController? get videoPlayerController => _videoPlayerController;
 
   bool get isInitialized => _isInitialized;
+
+  bool get isAutoPlay => autoPlay ?? false;
 
   /// [isPlaying] whether the video is playing
   bool get isPlaying => _videoPlayerController?.value.isPlaying ?? false;
@@ -51,10 +135,19 @@ class BetterVideoPlayerController extends ChangeNotifier {
   bool get isPaused => !isPlaying;
 
   /// [isLooping] whether the video is looping
-  bool get isLooping => _videoPlayerController?.value.isLooping ?? false;
+  bool get isLooping =>
+      loop ?? _videoPlayerController?.value.isLooping ?? false;
 
   /// [isShowToolbar] whether the toolbar is shown
-  bool get isShowToolbar => _isShowToolbar;
+  /// if [showToolbar] is false, the toolbar will be hidden
+  /// else, the toolbar will be shown
+  bool get isShowToolbar {
+    if (showToolbar == false) {
+      return false;
+    }
+
+    return _isShowToolbar;
+  }
 
   /// [isFullscreen] whether the fullscreen is enabled
   bool get isFullscreen => _isFullscreen;
@@ -81,12 +174,13 @@ class BetterVideoPlayerController extends ChangeNotifier {
   double get speed => _videoPlayerController?.value.playbackSpeed ?? 1;
 
   /// [aspectRatio] the aspect ratio of the video
-  double get aspectRatio => _videoPlayerController?.value.aspectRatio ?? 16 / 9;
+  double get aspectRatio =>
+      aspectRation ?? _videoPlayerController?.value.aspectRatio ?? 16 / 9;
 
   /// [size] the size of the video
   Size get size => _videoPlayerController?.value.size ?? Size.zero;
 
-  List<double> get playbackSpeeds => _playbackSpeeds;
+  List<double> get playbackSpeeds => speeds ?? _playbackSpeeds;
 
   Future<void> init({Function()? callback}) async {
     if (_isInitialized) return;
@@ -134,11 +228,30 @@ class BetterVideoPlayerController extends ChangeNotifier {
         break;
     }
 
+    await _videoPlayerController?.setLooping(isLooping);
+
     _videoPlayerController!.addListener(() {
       _onVideoPlayerListener(callback);
     });
 
+    // Initialize the video player first
     await _videoPlayerController!.initialize();
+
+    // Set initial configurations after initialization
+    if (initialSpeed != null) {
+      await _videoPlayerController?.setPlaybackSpeed(initialSpeed!);
+    }
+
+    if (initialVolume != null) {
+      await _videoPlayerController?.setVolume(initialVolume!);
+    }
+
+    // Set initial position after initialization is complete
+    if (initialPosition != null) {
+      await _videoPlayerController?.seekTo(
+        Duration(seconds: initialPosition!.toInt()),
+      );
+    }
 
     _isInitialized = true;
 
@@ -242,6 +355,8 @@ class BetterVideoPlayerController extends ChangeNotifier {
     _videoPlayerController?.dispose();
     _videoPlayerController = null;
     _isDisposed = true;
+
+    debugPrint('better video player controller dispose');
 
     super.dispose();
   }
