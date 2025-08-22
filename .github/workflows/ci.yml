@@ -1,0 +1,148 @@
+name: CI
+
+# Trigger the workflow on push to main branch and pull requests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Allow manual triggering of the workflow
+  workflow_dispatch:
+
+jobs:
+  # Job for code analysis and linting
+  analyze:
+    name: Analyze Code
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Flutter environment
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: true
+
+      # Get Flutter dependencies
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Run Flutter analyzer for static code analysis
+      - name: Analyze code
+        run: flutter analyze
+
+      # Check code formatting
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+
+      # Run dart pub publish dry run to check package health
+      - name: Check package health
+        run: dart pub publish --dry-run
+
+    # Job for running tests on Flutter 3.27.0
+  test:
+    name: Test on Flutter 3.24.3
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Flutter 3.24.3
+      - name: Setup Flutter 3.24.3
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: true
+
+      # Get Flutter dependencies
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Run unit tests with coverage
+      - name: Run tests
+        run: flutter test --coverage
+
+      # Upload coverage reports to Codecov (optional)
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: coverage/lcov.info
+          fail_ci_if_error: false
+
+  # Job for testing the example app if it exists
+  example:
+    name: Build Example App
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Flutter environment
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: true
+
+      # Get plugin dependencies
+      - name: Get plugin dependencies
+        run: flutter pub get
+
+      # Check if example directory exists and has a valid Flutter app structure
+      - name: Build example app
+        run: |
+          if [ -d "example" ] && [ -f "example/pubspec.yaml" ] && [ -f "example/lib/main.dart" ]; then
+            echo "Found valid Flutter example app, building..."
+            cd example
+            flutter pub get
+            flutter build apk --debug
+            echo "Example app built successfully"
+          elif [ -d "example" ]; then
+            echo "Example directory exists but doesn't contain a valid Flutter app structure"
+            echo "Skipping example build"
+          else
+            echo "No example directory found, skipping example build"
+          fi
+
+  # Job for checking plugin compatibility
+  compatibility:
+    name: Plugin Compatibility Check
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Flutter environment
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+          cache: true
+
+      # Get dependencies
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Check for outdated dependencies
+      - name: Check outdated dependencies
+        run: flutter pub outdated
+        continue-on-error: true
+
+      # Run dependency audit
+      - name: Audit dependencies
+        run: dart pub deps
+        continue-on-error: true
