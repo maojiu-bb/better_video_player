@@ -14,7 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  video_player: ^2.10.0
+  video_player: ^2.9.0
 
 dev_dependencies:
   flutter_test:
