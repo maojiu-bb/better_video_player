@@ -39,14 +39,12 @@ class TopToolbar extends StatelessWidget {
                     width: 1,
                   ),
                 ),
-                child: Icon(Icons.close, color: Colors.white, size: 20),
+                child: const Icon(Icons.close, color: Colors.white, size: 20),
               ),
             ),
           ),
         ),
-
         const Spacer(),
-
         GestureDetector(
           onTap: () {
             if (onPictureInPicture != null) {
@@ -69,7 +67,7 @@ class TopToolbar extends StatelessWidget {
                     width: 1,
                   ),
                 ),
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.rectangle_on_rectangle,
                   color: Colors.white,
                   size: 20,

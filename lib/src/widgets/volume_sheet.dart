@@ -42,7 +42,7 @@ class VolumeSheet {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
                       child: Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 15,
                           vertical: 15,
                         ),
@@ -84,15 +84,15 @@ class VolumeSheet {
                                   double currentVolume = controller.volume;
                                   double deltaVolume =
                                       -details.delta.dy / 100.0;
-                                  double newVolume = (currentVolume +
-                                          deltaVolume)
-                                      .clamp(0.0, 1.0);
+                                  double newVolume =
+                                      (currentVolume + deltaVolume)
+                                          .clamp(0.0, 1.0);
                                   controller.setVolume(newVolume);
                                 },
                                 child: Container(
                                   width: 5,
                                   height: 5,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),

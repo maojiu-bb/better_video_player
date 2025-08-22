@@ -34,18 +34,14 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final displayDuration =
-            _isDragging && _dragPosition != null
-                ? _dragPosition!
-                : widget.currentDuration;
+        final displayDuration = _isDragging && _dragPosition != null
+            ? _dragPosition!
+            : widget.currentDuration;
 
-        final progressWidth =
-            widget.totalDuration > 0
-                ? (displayDuration /
-                        widget.totalDuration *
-                        constraints.maxWidth)
-                    .clamp(0.0, constraints.maxWidth)
-                : 0.0;
+        final progressWidth = widget.totalDuration > 0
+            ? (displayDuration / widget.totalDuration * constraints.maxWidth)
+                .clamp(0.0, constraints.maxWidth)
+            : 0.0;
 
         return GestureDetector(
           onTapUp: (details) {
@@ -95,7 +91,6 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
                     ),
                   ),
                 ),
-
                 Positioned(
                   left: progressWidth - 5,
                   top: 0,
@@ -108,12 +103,11 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
                         _dragPosition = widget.currentDuration;
                       });
                     },
-
                     onPanUpdate: (details) {
                       if (_isDragging && _dragPosition != null) {
                         final deltaTime =
                             (details.delta.dx / constraints.maxWidth) *
-                            widget.totalDuration;
+                                widget.totalDuration;
 
                         final newPosition = (_dragPosition! + deltaTime).clamp(
                           0.0,
@@ -125,7 +119,6 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
                         });
                       }
                     },
-
                     onPanEnd: (details) {
                       if (_isDragging && _dragPosition != null) {
                         final finalPosition = _dragPosition!;
@@ -149,7 +142,7 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
                     child: Container(
                       width: 5,
                       height: 5,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),

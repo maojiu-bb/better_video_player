@@ -31,7 +31,7 @@ class FullBottomToolbar extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.2),
             border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
@@ -43,13 +43,13 @@ class FullBottomToolbar extends StatelessWidget {
                 children: [
                   Text(
                     durationFormat(currentDuration),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "/",
                     style: TextStyle(
                       fontSize: 12,
@@ -59,7 +59,7 @@ class FullBottomToolbar extends StatelessWidget {
                   ),
                   Text(
                     durationFormat(totalDuration),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -67,7 +67,7 @@ class FullBottomToolbar extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: BetterVideoProgress(
                   totalDuration: totalDuration,
@@ -75,27 +75,27 @@ class FullBottomToolbar extends StatelessWidget {
                   onSeek: onSeek,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: onPlaybackSpeed,
                 child: Text(
                   "${playbackSpeed}x",
-                  style: TextStyle(fontSize: 14, color: Colors.white),
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: onVolume,
-                child: Icon(
+                child: const Icon(
                   Icons.volume_up_rounded,
                   color: Colors.white,
                   size: 24,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: onExitFullscreen,
-                child: Icon(
+                child: const Icon(
                   Icons.fullscreen_exit_rounded,
                   color: Colors.white,
                   size: 24,

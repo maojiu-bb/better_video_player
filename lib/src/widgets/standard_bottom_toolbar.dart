@@ -25,7 +25,7 @@ class StandardBottomToolbar extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.2),
             border: Border.all(color: Colors.white.withOpacity(0.1), width: 1),
@@ -37,13 +37,13 @@ class StandardBottomToolbar extends StatelessWidget {
                 children: [
                   Text(
                     durationFormat(currentDuration),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 10,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  Text(
+                  const Text(
                     "/",
                     style: TextStyle(
                       fontSize: 10,
@@ -53,7 +53,7 @@ class StandardBottomToolbar extends StatelessWidget {
                   ),
                   Text(
                     durationFormat(totalDuration),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 10,
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -61,7 +61,7 @@ class StandardBottomToolbar extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: BetterVideoProgress(
                   totalDuration: totalDuration,
@@ -69,10 +69,10 @@ class StandardBottomToolbar extends StatelessWidget {
                   onSeek: onSeek,
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               GestureDetector(
                 onTap: onFullscreen,
-                child: Icon(
+                child: const Icon(
                   Icons.fullscreen_rounded,
                   color: Colors.white,
                   size: 20,

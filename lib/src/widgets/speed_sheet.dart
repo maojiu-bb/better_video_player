@@ -18,8 +18,8 @@ class SpeedSheet extends StatelessWidget {
             filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
             child: Container(
               width: 350,
-              margin: EdgeInsets.only(bottom: 20),
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              margin: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.5),
                 borderRadius: BorderRadius.circular(16),
@@ -32,7 +32,7 @@ class SpeedSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
+                  const Text(
                     "Playback Speed",
                     style: TextStyle(
                       fontSize: 14,
@@ -40,11 +40,12 @@ class SpeedSheet extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   GridView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       childAspectRatio: 2,
                       mainAxisSpacing: 15,
@@ -59,22 +60,20 @@ class SpeedSheet extends StatelessWidget {
                         child: Container(
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
-                            color:
-                                isSelected
-                                    ? Colors.white.withOpacity(0.5)
-                                    : Colors.white.withOpacity(0.1),
+                            color: isSelected
+                                ? Colors.white.withOpacity(0.5)
+                                : Colors.white.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(
-                              color:
-                                  isSelected
-                                      ? Colors.white
-                                      : Colors.white.withOpacity(0.2),
+                              color: isSelected
+                                  ? Colors.white
+                                  : Colors.white.withOpacity(0.2),
                               width: 1,
                             ),
                           ),
                           child: Text(
                             "${speed}x",
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
