@@ -31,8 +31,8 @@ class _BetterVideoPlayerState extends State<BetterVideoPlayer> {
     widget.controller.toggleFullscreen();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder:
-            (context) => FullBetterVideoPlayer(controller: widget.controller),
+        builder: (context) =>
+            FullBetterVideoPlayer(controller: widget.controller),
       ),
     );
   }
