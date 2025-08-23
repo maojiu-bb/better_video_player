@@ -210,11 +210,11 @@ class VideoPlayerContent extends StatelessWidget {
                 onClose?.call();
               }
             },
-            onPictureInPicture: () {
-              if (controller.isShowToolbar) {
-                onPictureInPicture?.call();
-              }
-            },
+            // onPictureInPicture: () {
+            //   if (controller.isShowToolbar) {
+            //     onPictureInPicture?.call();
+            //   }
+            // },
           ),
         ),
       ),
