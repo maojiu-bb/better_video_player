@@ -128,6 +128,9 @@ class BetterVideoPlayerController extends ChangeNotifier {
 
   bool get isAutoPlay => autoPlay ?? false;
 
+  /// [isBuffering] whether the video is buffering
+  bool get isBuffering => _videoPlayerController?.value.isBuffering ?? false;
+
   /// [isPlaying] whether the video is playing
   bool get isPlaying => _videoPlayerController?.value.isPlaying ?? false;
 

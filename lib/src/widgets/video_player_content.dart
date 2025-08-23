@@ -104,11 +104,22 @@ class VideoPlayerContent extends StatelessWidget {
                   width: 1,
                 ),
               ),
-              child: Icon(
-                controller.isPlaying ? Icons.pause : Icons.play_arrow,
-                color: Colors.white,
-                size: 25,
-              ),
+              child: controller.isBuffering
+                  ? SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                        valueColor: const AlwaysStoppedAnimation(Colors.white),
+                        backgroundColor: Colors.white.withOpacity(0.2),
+                      ),
+                    )
+                  : Icon(
+                      controller.isPlaying ? Icons.pause : Icons.play_arrow,
+                      color: Colors.white,
+                      size: 25,
+                    ),
             ),
           ),
         ),
