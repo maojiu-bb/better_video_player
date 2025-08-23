@@ -48,7 +48,7 @@ class _BetterVideoPlayerState extends State<BetterVideoPlayer> {
           aspectRatio: widget.controller.aspectRatio,
           child: VideoPlayerContent(
             controller: widget.controller,
-            onFullscreen: _navigateToFullscreen,
+            onToggleFullscreen: _navigateToFullscreen,
           ),
         ),
       ),

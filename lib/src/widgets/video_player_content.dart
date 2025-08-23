@@ -11,14 +11,14 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerContent extends StatelessWidget {
   final BetterVideoPlayerController controller;
-  final Function() onFullscreen;
+  final Function() onToggleFullscreen;
   final Function()? onClose;
   final Function()? onPictureInPicture;
 
   const VideoPlayerContent({
     super.key,
     required this.controller,
-    required this.onFullscreen,
+    required this.onToggleFullscreen,
     this.onClose,
     this.onPictureInPicture,
   });
@@ -132,18 +132,18 @@ class VideoPlayerContent extends StatelessWidget {
                   currentDuration: controller.position.inSeconds.toDouble(),
                   onExitFullscreen: () {
                     if (controller.isShowToolbar) {
-                      onFullscreen();
+                      onToggleFullscreen();
                     }
                   },
                   playbackSpeed: controller.speed,
                   onPlaybackSpeed: () {
                     if (controller.isShowToolbar) {
-                      _showPlaybackSpeedSheet(context);
+                      _toggleShowPlaybackSpeedSheet(context);
                     }
                   },
                   onVolume: () {
                     if (controller.isShowToolbar) {
-                      _showVolumeSheet(context);
+                      _toggleShowVolumeSheet(context);
                     }
                   },
                   onSeek: (double newDuration) {
@@ -159,7 +159,7 @@ class VideoPlayerContent extends StatelessWidget {
                   currentDuration: controller.position.inSeconds.toDouble(),
                   onFullscreen: () {
                     if (controller.isShowToolbar) {
-                      onFullscreen();
+                      onToggleFullscreen();
                     }
                   },
                   onSeek: (newDuration) {
@@ -175,15 +175,20 @@ class VideoPlayerContent extends StatelessWidget {
     );
   }
 
-  void _showVolumeSheet(BuildContext context) {
-    if (controller.isShowToolbar && !VolumeSheet.isShow) {
+  void _toggleShowVolumeSheet(BuildContext context) {
+    if (!VolumeSheet.isShow) {
       const right = 140.0;
       const bottom = 60.0;
       VolumeSheet.show(context, controller, bottom, right);
+    } else {
+      VolumeSheet.hide();
     }
   }
 
-  void _showPlaybackSpeedSheet(BuildContext context) {
+  void _toggleShowPlaybackSpeedSheet(BuildContext context) {
+    if (VolumeSheet.isShow) {
+      VolumeSheet.hide();
+    }
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,

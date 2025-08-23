@@ -47,7 +47,7 @@ class _FullBetterVideoPlayerState extends State<FullBetterVideoPlayer> {
           height: double.infinity,
           child: VideoPlayerContent(
             controller: widget.controller,
-            onFullscreen: _exitFullscreen,
+            onToggleFullscreen: _exitFullscreen,
             onClose: _exitFullscreen,
             onPictureInPicture: _enterPictureInPicture,
           ),
