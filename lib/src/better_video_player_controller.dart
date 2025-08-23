@@ -288,8 +288,11 @@ class BetterVideoPlayerController extends ChangeNotifier {
   }
 
   /// [seekTo] the video to the given duration
-  void seekTo(Duration duration) {
+  Future<void> seekTo(Duration duration) async {
     if (_videoPlayerController != null && _isInitialized) {
+      /// pause the video
+      await pause();
+
       _videoPlayerController!.seekTo(duration);
       notifyListeners();
     }
