@@ -143,6 +143,9 @@ class VideoPlayerContent extends StatelessWidget {
                   currentDuration: controller.position.inSeconds.toDouble(),
                   onExitFullscreen: () {
                     if (controller.isShowToolbar) {
+                      if (VolumeSheet.isShow) {
+                        VolumeSheet.hide();
+                      }
                       onToggleFullscreen();
                     }
                   },
@@ -224,6 +227,9 @@ class VideoPlayerContent extends StatelessWidget {
           child: TopToolbar(
             onClose: () {
               if (controller.isShowToolbar) {
+                if (VolumeSheet.isShow) {
+                  VolumeSheet.hide();
+                }
                 onClose?.call();
               }
             },
