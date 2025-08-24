@@ -131,7 +131,7 @@ class VideoPlayerContent extends StatelessWidget {
     return Positioned(
       left: controller.isFullscreen ? 40 : 20,
       right: controller.isFullscreen ? 40 : 20,
-      bottom: 10,
+      bottom: controller.isFullscreen ? 20 : 10,
       child: SafeArea(
         bottom: false,
         child: AnimatedOpacity(
