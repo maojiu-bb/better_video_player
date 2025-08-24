@@ -32,7 +32,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  mj_video_player: ^0.0.1
+  mj_video_player: ^0.0.2
 ```
 
 Then run:

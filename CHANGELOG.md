@@ -1,3 +1,7 @@
+## 0.0.2
+
+- Fix the duration width issue
+
 ## 0.0.1
 
 - Initial release of MJ Video Player

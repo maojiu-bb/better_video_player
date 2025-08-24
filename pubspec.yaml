@@ -1,6 +1,6 @@
 name: mj_video_player
 description: 'A powerful and customizable video player for Flutter with enhanced controls and features.'
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/maojiu-bb/mj_video_player
 repository: https://github.com/maojiu-bb/mj_video_player
 issue_tracker: https://github.com/maojiu-bb/mj_video_player/issues
