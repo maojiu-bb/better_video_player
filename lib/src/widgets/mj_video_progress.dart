@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class BetterVideoProgress extends StatefulWidget {
+class MJVideoProgress extends StatefulWidget {
   final double totalDuration;
   final double currentDuration;
   final Function(double, VoidCallback?) onSeek;
 
-  const BetterVideoProgress({
+  const MJVideoProgress({
     super.key,
     required this.totalDuration,
     required this.currentDuration,
@@ -13,17 +13,17 @@ class BetterVideoProgress extends StatefulWidget {
   });
 
   @override
-  State<BetterVideoProgress> createState() => _BetterVideoProgressState();
+  State<MJVideoProgress> createState() => _MJVideoProgressState();
 }
 
-class _BetterVideoProgressState extends State<BetterVideoProgress> {
+class _MJVideoProgressState extends State<MJVideoProgress> {
   bool _isDragging = false;
   double? _dragPosition;
   bool _isSeeking = false;
   double? _targetPosition;
 
   @override
-  void didUpdateWidget(BetterVideoProgress oldWidget) {
+  void didUpdateWidget(MJVideoProgress oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (_isSeeking && _targetPosition != null) {

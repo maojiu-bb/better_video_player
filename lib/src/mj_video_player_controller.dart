@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:better_video_player/src/utils/better_video_type.dart';
-import 'package:better_video_player/src/widgets/volume_sheet.dart';
+import 'package:mj_video_player/src/utils/mj_video_type.dart';
+import 'package:mj_video_player/src/widgets/volume_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class BetterVideoPlayerController extends ChangeNotifier {
+class MJVideoPlayerController extends ChangeNotifier {
   final String url;
-  final BetterVideoType type;
+  final MJVideoType type;
   final bool? showToolbar;
   final bool? loop;
   final List<double>? speeds;
@@ -31,7 +31,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
 
   List<double> _playbackSpeeds = [0.5, 1, 1.5, 2, 2.5, 3];
 
-  BetterVideoPlayerController({
+  MJVideoPlayerController({
     required this.url,
     required this.type,
     this.showToolbar,
@@ -45,7 +45,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
   });
 
   /// [network] create a network video player controller
-  factory BetterVideoPlayerController.network(
+  factory MJVideoPlayerController.network(
     String url, {
     bool? showToolbar,
     bool? loop,
@@ -56,9 +56,9 @@ class BetterVideoPlayerController extends ChangeNotifier {
     double? initialPosition,
     double? aspectRation,
   }) {
-    return BetterVideoPlayerController(
+    return MJVideoPlayerController(
       url: url,
-      type: BetterVideoType.network,
+      type: MJVideoType.network,
       showToolbar: showToolbar,
       loop: loop,
       speeds: speeds,
@@ -71,7 +71,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
   }
 
   /// [asset] create an asset video player controller
-  factory BetterVideoPlayerController.asset(
+  factory MJVideoPlayerController.asset(
     String asset, {
     bool? showToolbar,
     bool? loop,
@@ -82,9 +82,9 @@ class BetterVideoPlayerController extends ChangeNotifier {
     double? initialPosition,
     double? aspectRation,
   }) {
-    return BetterVideoPlayerController(
+    return MJVideoPlayerController(
       url: asset,
-      type: BetterVideoType.asset,
+      type: MJVideoType.asset,
       showToolbar: showToolbar,
       loop: loop,
       initialSpeed: initialSpeed,
@@ -97,7 +97,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
   }
 
   /// [file] create a file video player controller
-  factory BetterVideoPlayerController.file(
+  factory MJVideoPlayerController.file(
     String path, {
     bool? showToolbar,
     bool? loop,
@@ -108,9 +108,9 @@ class BetterVideoPlayerController extends ChangeNotifier {
     double? initialPosition,
     double? aspectRation,
   }) {
-    return BetterVideoPlayerController(
+    return MJVideoPlayerController(
       url: path,
-      type: BetterVideoType.file,
+      type: MJVideoType.file,
       showToolbar: showToolbar,
       loop: loop,
       speeds: speeds,
@@ -189,7 +189,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
     if (_isInitialized) return;
 
     switch (type) {
-      case BetterVideoType.network:
+      case MJVideoType.network:
 
         /// [valid] check if the url is a valid url
         if (url.isEmpty ||
@@ -201,12 +201,12 @@ class BetterVideoPlayerController extends ChangeNotifier {
 
         _videoPlayerController = VideoPlayerController.networkUrl(
           Uri.parse(url),
-          httpHeaders: {'User-Agent': 'BetterVideoPlayer'},
+          httpHeaders: {'User-Agent': 'MJVideoPlayer'},
         );
 
         break;
 
-      case BetterVideoType.asset:
+      case MJVideoType.asset:
 
         /// [valid] check if the asset is a valid asset
         if (url.isEmpty || !url.startsWith('assets/')) {
@@ -218,7 +218,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
 
         break;
 
-      case BetterVideoType.file:
+      case MJVideoType.file:
 
         /// [valid] check if the file is a valid file
         if (url.isEmpty || !File(url).existsSync()) {
@@ -359,7 +359,7 @@ class BetterVideoPlayerController extends ChangeNotifier {
     _videoPlayerController = null;
     _isDisposed = true;
 
-    debugPrint('better video player controller dispose');
+    debugPrint('MJ video player controller dispose');
 
     super.dispose();
   }

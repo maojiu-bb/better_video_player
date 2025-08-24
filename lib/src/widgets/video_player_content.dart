@@ -1,16 +1,16 @@
 import 'dart:ui';
-import 'package:better_video_player/src/better_video_player_controller.dart';
-import 'package:better_video_player/src/widgets/better_error_widget.dart';
-import 'package:better_video_player/src/widgets/full_bottom_toolbar.dart';
-import 'package:better_video_player/src/widgets/speed_sheet.dart';
-import 'package:better_video_player/src/widgets/standard_bottom_toolbar.dart';
-import 'package:better_video_player/src/widgets/top_toolbar.dart';
-import 'package:better_video_player/src/widgets/volume_sheet.dart';
+import 'package:mj_video_player/src/mj_video_player_controller.dart';
+import 'package:mj_video_player/src/widgets/mj_error_widget.dart';
+import 'package:mj_video_player/src/widgets/full_bottom_toolbar.dart';
+import 'package:mj_video_player/src/widgets/speed_sheet.dart';
+import 'package:mj_video_player/src/widgets/standard_bottom_toolbar.dart';
+import 'package:mj_video_player/src/widgets/top_toolbar.dart';
+import 'package:mj_video_player/src/widgets/volume_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerContent extends StatelessWidget {
-  final BetterVideoPlayerController controller;
+  final MJVideoPlayerController controller;
   final Function() onToggleFullscreen;
   final Function()? onClose;
   final Function()? onPictureInPicture;
@@ -29,7 +29,7 @@ class VideoPlayerContent extends StatelessWidget {
       animation: controller,
       builder: (context, child) {
         if (controller.hasError) {
-          return BetterErrorWidget(
+          return MJErrorWidget(
             errorMessage: controller.errorMessage ?? 'Error',
             onRefresh: () => controller.init(),
           );

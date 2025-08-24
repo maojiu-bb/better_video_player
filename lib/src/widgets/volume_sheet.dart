@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:better_video_player/src/better_video_player_controller.dart';
+import 'package:mj_video_player/src/mj_video_player_controller.dart';
 import 'package:flutter/material.dart';
 
 class VolumeSheet {
@@ -11,7 +11,7 @@ class VolumeSheet {
 
   static void show(
     BuildContext context,
-    BetterVideoPlayerController controller,
+    MJVideoPlayerController controller,
     double bottom,
     double right,
   ) {
@@ -43,7 +43,7 @@ class VolumeSheet {
 }
 
 class _VolumeSheetWidget extends StatefulWidget {
-  final BetterVideoPlayerController controller;
+  final MJVideoPlayerController controller;
   final double bottom;
   final double right;
   final VoidCallback onAnimationComplete;

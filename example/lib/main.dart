@@ -1,4 +1,4 @@
-import 'package:better_video_player/better_video_player.dart';
+import 'package:mj_video_player/mj_video_player.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Better Video Player'),
+      home: const MyHomePage(title: 'MJ Video Player'),
     );
   }
 }
@@ -46,13 +46,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late BetterVideoPlayerController controller;
+  late MJVideoPlayerController controller;
 
   @override
   void initState() {
     super.initState();
 
-    controller = BetterVideoPlayerController.network(
+    controller = MJVideoPlayerController.network(
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       showToolbar: true,
       autoPlay: true,
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(child: BetterVideoPlayer(controller: controller)),
+      body: Center(child: MJVideoPlayer(controller: controller)),
     );
   }
 }

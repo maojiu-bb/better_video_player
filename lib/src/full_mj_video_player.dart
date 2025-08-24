@@ -1,18 +1,18 @@
-import 'package:better_video_player/src/better_video_player_controller.dart';
-import 'package:better_video_player/src/widgets/video_player_content.dart';
+import 'package:mj_video_player/src/mj_video_player_controller.dart';
+import 'package:mj_video_player/src/widgets/video_player_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class FullBetterVideoPlayer extends StatefulWidget {
-  final BetterVideoPlayerController controller;
+class FullMJVideoPlayer extends StatefulWidget {
+  final MJVideoPlayerController controller;
 
-  const FullBetterVideoPlayer({super.key, required this.controller});
+  const FullMJVideoPlayer({super.key, required this.controller});
 
   @override
-  State<FullBetterVideoPlayer> createState() => _FullBetterVideoPlayerState();
+  State<FullMJVideoPlayer> createState() => _FullMJVideoPlayerState();
 }
 
-class _FullBetterVideoPlayerState extends State<FullBetterVideoPlayer> {
+class _FullMJVideoPlayerState extends State<FullMJVideoPlayer> {
   @override
   void initState() {
     super.initState();

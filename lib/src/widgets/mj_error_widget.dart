@@ -2,11 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class BetterErrorWidget extends StatelessWidget {
+class MJErrorWidget extends StatelessWidget {
   final String errorMessage;
   final Function() onRefresh;
 
-  const BetterErrorWidget({
+  const MJErrorWidget({
     super.key,
     required this.errorMessage,
     required this.onRefresh,

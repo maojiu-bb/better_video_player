@@ -1,18 +1,18 @@
-import 'package:better_video_player/src/better_video_player_controller.dart';
-import 'package:better_video_player/src/full_better_video_player.dart';
-import 'package:better_video_player/src/widgets/video_player_content.dart';
+import 'package:mj_video_player/src/mj_video_player_controller.dart';
+import 'package:mj_video_player/src/full_mj_video_player.dart';
+import 'package:mj_video_player/src/widgets/video_player_content.dart';
 import 'package:flutter/material.dart';
 
-class BetterVideoPlayer extends StatefulWidget {
-  final BetterVideoPlayerController controller;
+class MJVideoPlayer extends StatefulWidget {
+  final MJVideoPlayerController controller;
 
-  const BetterVideoPlayer({super.key, required this.controller});
+  const MJVideoPlayer({super.key, required this.controller});
 
   @override
-  State<BetterVideoPlayer> createState() => _BetterVideoPlayerState();
+  State<MJVideoPlayer> createState() => _MJVideoPlayerState();
 }
 
-class _BetterVideoPlayerState extends State<BetterVideoPlayer> {
+class _MJVideoPlayerState extends State<MJVideoPlayer> {
   @override
   void initState() {
     super.initState();
@@ -31,8 +31,7 @@ class _BetterVideoPlayerState extends State<BetterVideoPlayer> {
     widget.controller.toggleFullscreen();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            FullBetterVideoPlayer(controller: widget.controller),
+        builder: (context) => FullMJVideoPlayer(controller: widget.controller),
       ),
     );
   }

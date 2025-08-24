@@ -1,7 +1,7 @@
 import 'dart:ui';
 
-import 'package:better_video_player/src/widgets/better_video_progress.dart';
-import 'package:better_video_player/src/utils/duration_format.dart';
+import 'package:mj_video_player/src/widgets/mj_video_progress.dart';
+import 'package:mj_video_player/src/utils/duration_format.dart';
 import 'package:flutter/material.dart';
 
 class StandardBottomToolbar extends StatelessWidget {
@@ -63,7 +63,7 @@ class StandardBottomToolbar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: BetterVideoProgress(
+                child: MJVideoProgress(
                   totalDuration: totalDuration,
                   currentDuration: currentDuration,
                   onSeek: onSeek,

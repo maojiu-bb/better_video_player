@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:better_video_player/src/better_video_player_controller.dart';
+import 'package:mj_video_player/src/mj_video_player_controller.dart';
 import 'package:flutter/material.dart';
 
 class SpeedSheet extends StatelessWidget {
-  final BetterVideoPlayerController controller;
+  final MJVideoPlayerController controller;
   const SpeedSheet({super.key, required this.controller});
 
   @override

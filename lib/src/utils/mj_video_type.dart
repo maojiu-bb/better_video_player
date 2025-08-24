@@ -1,4 +1,4 @@
-enum BetterVideoType {
+enum MJVideoType {
   /// [network]
   /// The video is a network video
   network,
