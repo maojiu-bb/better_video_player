@@ -33,33 +33,36 @@ class StandardBottomToolbar extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    durationFormat(currentDuration),
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+              SizedBox(
+                width: 65,
+                child: Row(
+                  children: [
+                    Text(
+                      durationFormat(currentDuration),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  const Text(
-                    "/",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+                    const Text(
+                      "/",
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  Text(
-                    durationFormat(totalDuration),
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+                    Text(
+                      durationFormat(totalDuration),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(

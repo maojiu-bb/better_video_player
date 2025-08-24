@@ -68,33 +68,36 @@ class _FullBottomToolbarState extends State<FullBottomToolbar> {
           ),
           child: Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    durationFormat(widget.currentDuration),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+              SizedBox(
+                width: 75,
+                child: Row(
+                  children: [
+                    Text(
+                      durationFormat(widget.currentDuration),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  const Text(
-                    "/",
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+                    const Text(
+                      "/",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                  Text(
-                    durationFormat(widget.totalDuration),
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
+                    Text(
+                      durationFormat(widget.totalDuration),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
