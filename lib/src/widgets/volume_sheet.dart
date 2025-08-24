@@ -138,20 +138,29 @@ class _VolumeSheetWidgetState extends State<_VolumeSheetWidget>
                   borderRadius: BorderRadius.circular(16),
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 15,
-                        vertical: 15,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 1,
+                    child: GestureDetector(
+                      onVerticalDragUpdate: (details) {
+                        double currentVolume = widget.controller.volume;
+                        double deltaVolume = -details.delta.dy / 100.0;
+                        double newVolume =
+                            (currentVolume + deltaVolume).clamp(0.0, 1.0);
+                        widget.controller.setVolume(newVolume);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 15,
                         ),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.2),
+                            width: 1,
+                          ),
+                        ),
+                        child: _buildVolumeSlider(),
                       ),
-                      child: _buildVolumeSlider(),
                     ),
                   ),
                 ),
@@ -182,25 +191,6 @@ class _VolumeSheetWidgetState extends State<_VolumeSheetWidget>
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(2.5),
-            ),
-          ),
-        ),
-        Positioned(
-          bottom: widget.controller.volume * 100 - 5,
-          child: GestureDetector(
-            onVerticalDragUpdate: (details) {
-              double currentVolume = widget.controller.volume;
-              double deltaVolume = -details.delta.dy / 100.0;
-              double newVolume = (currentVolume + deltaVolume).clamp(0.0, 1.0);
-              widget.controller.setVolume(newVolume);
-            },
-            child: Container(
-              width: 5,
-              height: 5,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
             ),
           ),
         ),

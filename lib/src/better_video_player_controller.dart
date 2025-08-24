@@ -290,20 +290,17 @@ class BetterVideoPlayerController extends ChangeNotifier {
   /// [seekTo] the video to the given duration
   Future<void> seekTo(Duration duration) async {
     if (_videoPlayerController != null && _isInitialized) {
-      /// pause the video
-      await pause();
-
-      _videoPlayerController!.seekTo(duration);
+      await _videoPlayerController!.seekTo(duration);
       notifyListeners();
     }
   }
 
   /// [setVolume] the volume of the video
-  void setVolume(double volume) {
+  Future<void> setVolume(double volume) async {
     volume = volume.clamp(0.0, 1.0);
 
     if (_videoPlayerController != null && _isInitialized) {
-      _videoPlayerController!.setVolume(volume);
+      await _videoPlayerController!.setVolume(volume);
       notifyListeners();
     }
   }
@@ -317,9 +314,9 @@ class BetterVideoPlayerController extends ChangeNotifier {
   }
 
   /// [setLoop] whether the video should loop
-  void setLoop(bool loop) {
+  Future<void> setLoop(bool loop) async {
     if (_videoPlayerController != null && _isInitialized) {
-      _videoPlayerController!.setLooping(loop);
+      await _videoPlayerController!.setLooping(loop);
       notifyListeners();
     }
   }

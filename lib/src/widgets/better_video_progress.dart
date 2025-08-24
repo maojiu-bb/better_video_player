@@ -1,11 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class BetterVideoProgress extends StatefulWidget {
   final double totalDuration;
   final double currentDuration;
-  final Function(double) onSeek;
+  final Function(double, VoidCallback?) onSeek;
 
   const BetterVideoProgress({
     super.key,
@@ -21,13 +19,22 @@ class BetterVideoProgress extends StatefulWidget {
 class _BetterVideoProgressState extends State<BetterVideoProgress> {
   bool _isDragging = false;
   double? _dragPosition;
-  Timer? _clearStateTimer;
+  bool _isSeeking = false;
+  double? _targetPosition;
 
   @override
-  void dispose() {
-    super.dispose();
+  void didUpdateWidget(BetterVideoProgress oldWidget) {
+    super.didUpdateWidget(oldWidget);
 
-    _clearStateTimer?.cancel();
+    if (_isSeeking && _targetPosition != null) {
+      final difference = (widget.currentDuration - _targetPosition!).abs();
+      if (difference < 0.5) {
+        setState(() {
+          _isSeeking = false;
+          _targetPosition = null;
+        });
+      }
+    }
   }
 
   @override
@@ -36,7 +43,9 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
       builder: (context, constraints) {
         final displayDuration = _isDragging && _dragPosition != null
             ? _dragPosition!
-            : widget.currentDuration;
+            : _isSeeking && _targetPosition != null
+                ? _targetPosition!
+                : widget.currentDuration;
 
         final progressWidth = widget.totalDuration > 0
             ? (displayDuration / widget.totalDuration * constraints.maxWidth)
@@ -51,19 +60,48 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
               final newDuration = tapRatio * widget.totalDuration;
 
               setState(() {
-                _isDragging = true;
-                _dragPosition = newDuration;
+                _isSeeking = true;
+                _targetPosition = newDuration;
               });
 
-              widget.onSeek(newDuration);
+              widget.onSeek(newDuration, () {});
+            }
+          },
+          onPanStart: (details) {
+            setState(() {
+              _isDragging = true;
+              _dragPosition = widget.currentDuration;
+              _isSeeking = false;
+              _targetPosition = null;
+            });
+          },
+          onPanUpdate: (details) {
+            if (_isDragging && _dragPosition != null) {
+              final deltaTime = (details.delta.dx / constraints.maxWidth) *
+                  widget.totalDuration;
 
-              _clearStateTimer?.cancel();
-              _clearStateTimer = Timer(const Duration(milliseconds: 300), () {
-                setState(() {
-                  _isDragging = false;
-                  _dragPosition = null;
-                });
+              final newPosition = (_dragPosition! + deltaTime).clamp(
+                0.0,
+                widget.totalDuration,
+              );
+
+              setState(() {
+                _dragPosition = newPosition;
               });
+            }
+          },
+          onPanEnd: (details) {
+            if (_isDragging && _dragPosition != null) {
+              final finalPosition = _dragPosition!;
+
+              setState(() {
+                _isDragging = false;
+                _dragPosition = null;
+                _isSeeking = true;
+                _targetPosition = finalPosition;
+              });
+
+              widget.onSeek(finalPosition, () {});
             }
           },
           child: Container(
@@ -88,64 +126,6 @@ class _BetterVideoProgressState extends State<BetterVideoProgress> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: progressWidth - 5,
-                  top: 0,
-                  bottom: 0,
-                  child: GestureDetector(
-                    onPanStart: (details) {
-                      _clearStateTimer?.cancel();
-                      setState(() {
-                        _isDragging = true;
-                        _dragPosition = widget.currentDuration;
-                      });
-                    },
-                    onPanUpdate: (details) {
-                      if (_isDragging && _dragPosition != null) {
-                        final deltaTime =
-                            (details.delta.dx / constraints.maxWidth) *
-                                widget.totalDuration;
-
-                        final newPosition = (_dragPosition! + deltaTime).clamp(
-                          0.0,
-                          widget.totalDuration,
-                        );
-
-                        setState(() {
-                          _dragPosition = newPosition;
-                        });
-                      }
-                    },
-                    onPanEnd: (details) {
-                      if (_isDragging && _dragPosition != null) {
-                        final finalPosition = _dragPosition!;
-
-                        widget.onSeek(finalPosition);
-
-                        _clearStateTimer?.cancel();
-                        _clearStateTimer = Timer(
-                          const Duration(milliseconds: 300),
-                          () {
-                            if (mounted) {
-                              setState(() {
-                                _isDragging = false;
-                                _dragPosition = null;
-                              });
-                            }
-                          },
-                        );
-                      }
-                    },
-                    child: Container(
-                      width: 5,
-                      height: 5,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
-                      ),
                     ),
                   ),
                 ),

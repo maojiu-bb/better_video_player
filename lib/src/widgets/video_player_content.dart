@@ -152,16 +152,17 @@ class VideoPlayerContent extends StatelessWidget {
                       _toggleShowPlaybackSpeedSheet(context);
                     }
                   },
-                  onVolume: () {
+                  onVolume: (right, bottom) {
                     if (controller.isShowToolbar) {
-                      _toggleShowVolumeSheet(context);
+                      _toggleShowVolumeSheet(context, right, bottom);
                     }
                   },
-                  onSeek: (double newDuration) {
+                  onSeek: (double newDuration, VoidCallback? onComplete) {
                     if (controller.isShowToolbar) {
                       controller.seekTo(
                         Duration(seconds: newDuration.toInt()),
                       );
+                      onComplete?.call();
                     }
                   },
                 )
@@ -173,11 +174,12 @@ class VideoPlayerContent extends StatelessWidget {
                       onToggleFullscreen();
                     }
                   },
-                  onSeek: (newDuration) {
+                  onSeek: (newDuration, VoidCallback? onComplete) async {
                     if (controller.isShowToolbar) {
-                      controller.seekTo(
+                      await controller.seekTo(
                         Duration(seconds: newDuration.toInt()),
                       );
+                      onComplete?.call();
                     }
                   },
                 ),
@@ -186,10 +188,9 @@ class VideoPlayerContent extends StatelessWidget {
     );
   }
 
-  void _toggleShowVolumeSheet(BuildContext context) {
+  void _toggleShowVolumeSheet(
+      BuildContext context, double right, double bottom) {
     if (!VolumeSheet.isShow) {
-      const right = 140.0;
-      const bottom = 60.0;
       VolumeSheet.show(context, controller, bottom, right);
     } else {
       VolumeSheet.hide();

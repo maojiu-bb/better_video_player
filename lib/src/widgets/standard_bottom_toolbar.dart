@@ -8,7 +8,7 @@ class StandardBottomToolbar extends StatelessWidget {
   final double totalDuration;
   final double currentDuration;
   final Function() onFullscreen;
-  final Function(double) onSeek;
+  final Function(double, VoidCallback?) onSeek;
 
   const StandardBottomToolbar({
     super.key,

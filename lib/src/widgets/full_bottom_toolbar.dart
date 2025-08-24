@@ -4,14 +4,14 @@ import 'package:better_video_player/src/widgets/better_video_progress.dart';
 import 'package:better_video_player/src/utils/duration_format.dart';
 import 'package:flutter/material.dart';
 
-class FullBottomToolbar extends StatelessWidget {
+class FullBottomToolbar extends StatefulWidget {
   final double totalDuration;
   final double currentDuration;
   final double playbackSpeed;
   final Function() onExitFullscreen;
   final Function() onPlaybackSpeed;
-  final Function() onVolume;
-  final Function(double) onSeek;
+  final Function(double right, double bottom) onVolume;
+  final Function(double, VoidCallback?) onSeek;
 
   const FullBottomToolbar({
     super.key,
@@ -23,6 +23,35 @@ class FullBottomToolbar extends StatelessWidget {
     required this.onVolume,
     required this.onSeek,
   });
+
+  @override
+  State<FullBottomToolbar> createState() => _FullBottomToolbarState();
+}
+
+class _FullBottomToolbarState extends State<FullBottomToolbar> {
+  final GlobalKey _volumeKey = GlobalKey();
+
+  List<double> _calculateRightAndBottom() {
+    final RenderBox renderBox =
+        _volumeKey.currentContext?.findRenderObject() as RenderBox;
+
+    final offset = renderBox.localToGlobal(Offset.zero);
+    final buttonSize = renderBox.size;
+    final screenSize = MediaQuery.of(context).size;
+
+    const volumeSheetWidth = 35.0;
+    const spacing = 10.0;
+
+    final buttonCenterX = offset.dx + buttonSize.width / 2;
+    final sheetLeftEdge = buttonCenterX - volumeSheetWidth / 2;
+    final rightDistance = screenSize.width - sheetLeftEdge - volumeSheetWidth;
+
+    final buttonTopY = offset.dy;
+    final sheetBottomEdge = buttonTopY - spacing;
+    final bottomDistance = screenSize.height - sheetBottomEdge;
+
+    return [rightDistance, bottomDistance];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +71,7 @@ class FullBottomToolbar extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    durationFormat(currentDuration),
+                    durationFormat(widget.currentDuration),
                     style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
@@ -58,7 +87,7 @@ class FullBottomToolbar extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    durationFormat(totalDuration),
+                    durationFormat(widget.totalDuration),
                     style: const TextStyle(
                       fontSize: 12,
                       color: Colors.white,
@@ -70,22 +99,26 @@ class FullBottomToolbar extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: BetterVideoProgress(
-                  totalDuration: totalDuration,
-                  currentDuration: currentDuration,
-                  onSeek: onSeek,
+                  totalDuration: widget.totalDuration,
+                  currentDuration: widget.currentDuration,
+                  onSeek: widget.onSeek,
                 ),
               ),
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: onPlaybackSpeed,
+                onTap: widget.onPlaybackSpeed,
                 child: Text(
-                  "${playbackSpeed}x",
+                  "${widget.playbackSpeed}x",
                   style: const TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ),
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: onVolume,
+                key: _volumeKey,
+                onTap: () {
+                  final [right, bottom] = _calculateRightAndBottom();
+                  widget.onVolume(right, bottom);
+                },
                 child: const Icon(
                   Icons.volume_up_rounded,
                   color: Colors.white,
@@ -94,7 +127,7 @@ class FullBottomToolbar extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               GestureDetector(
-                onTap: onExitFullscreen,
+                onTap: widget.onExitFullscreen,
                 child: const Icon(
                   Icons.fullscreen_exit_rounded,
                   color: Colors.white,
